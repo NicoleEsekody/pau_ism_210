@@ -1,10 +1,11 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require('cors');
 const app = express();
 
-
 app.use(express.json());
-
+app.use(express.urlencoded({ extended: true }));
+app.use(cors());
 
 const dbURI = "mongodb+srv://NICOLEESEKODY_db_user:stopPlayingwithem2026@CA1cluster.jpsvqsr.mongodb.net/?appName=CA1cluster";
 
@@ -12,26 +13,30 @@ mongoose.connect(dbURI)
   .then(() => console.log("✅ Success: Connected to MongoDB Atlas!"))
   .catch(err => console.log("❌ Connection Error:", err));
 
-
-const userSchema = new mongoose.Schema({
-  username: String,
-  password: { type: String, required: true }
+const catSchema = new mongoose.Schema({
+  location: String,
+  personality: [String]
 });
 
-const User = mongoose.model('User', userSchema);
+const Cat = mongoose.model('Cat', catSchema);
 
-
-app.post('/api/submit-form/login', async (req, res) => {
+app.post('/api/submit-cat-form', async (req, res) => {
   try {
-    const newUser = new User(req.body);
-    await newUser.save();
-    res.status(200).json({ statusCode: 200, msg: "User Saved to Database!" });
+    const catData = {
+      location: req.body['indoor-outdoor'],
+      personality: req.body['personality']
+    };
+
+    const newCat = new Cat(catData);
+    await newCat.save();
+    
+    res.status(200).send("<h1>Success!</h1><p>Your cat's personality has been saved to MongoDB Atlas.</p><a href='/'>Go Back</a>");
   } catch (err) {
-    res.status(500).json({ msg: "Error saving data" });
+    res.status(500).send("Error saving data to database.");
   }
 });
 
-
-app.listen(3000, () => {
-  console.log("🚀 Server is running on http://localhost:3000");
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`🚀 Server is running on port ${PORT}`);
 });
