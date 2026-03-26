@@ -20,8 +20,11 @@ const catSchema = new mongoose.Schema({
 
 const Cat = mongoose.model('Cat', catSchema);
 
+const path = require('path');
+
+// Replace your existing app.get('/') with this:
 app.get('/', (req, res) => {
-  res.send("<h1>Cat App Backend is Live!</h1><p>Please use your HTML frontend to submit data to the database.</p>");
+  res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 app.post('/api/submit-cat-form', async (req, res) => {
