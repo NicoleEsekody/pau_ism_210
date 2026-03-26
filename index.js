@@ -20,7 +20,6 @@ const catSchema = new mongoose.Schema({
 
 const Cat = mongoose.model('Cat', catSchema);
 
-// --- ADDED THIS TO FIX THE "CANNOT GET /" ERROR ---
 app.get('/', (req, res) => {
   res.send("<h1>Cat App Backend is Live!</h1><p>Please use your HTML frontend to submit data to the database.</p>");
 });
