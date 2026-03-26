@@ -38,7 +38,7 @@
 <script>
     const API_URL = "http://localhost:3000/api/kittens";
 
-    // 1. READ: Fetch and show kittens
+    
     async function loadKittens() {
         const res = await fetch(API_URL);
         const json = await res.json();
@@ -55,7 +55,7 @@
         });
     }
 
-    // 2. CREATE: Add a new kitten
+    
     async function addKitten() {
         const nameInput = document.getElementById('kittenName');
         if (!nameInput.value) return alert("Please enter a name");
@@ -70,7 +70,7 @@
         loadKittens();
     }
 
-    // 3. DELETE: Remove a kitten
+    
     async function deleteKitten(id) {
         if(confirm("Delete this kitten?")) {
             await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
@@ -78,7 +78,7 @@
         }
     }
 
-    // Initial load
+    
     loadKittens();
 </script>
 
